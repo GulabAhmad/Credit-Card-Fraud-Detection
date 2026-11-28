@@ -89,7 +89,7 @@ with tab_check:
     row, actual = None, None
     if mode == "Pick a sample from the test set":
         c1, c2 = st.columns([1, 2])
-        kind = c1.selectbox("Show", ["Fraud samples", "Legit samples", "All samples"])
+        kind = c1.selectbox("Show", ["All samples", "Fraud samples", "Legit samples"])
         pool = samples if kind == "All samples" else samples[samples.Class == (1 if kind == "Fraud samples" else 0)]
         if "pick" not in st.session_state or st.session_state.pick not in pool.index:
             st.session_state.pick = int(pool.index[0])
@@ -98,11 +98,12 @@ with tab_check:
         options = list(pool.index)
         choice = c2.selectbox(
             "Transaction", options, index=options.index(st.session_state.pick),
-            format_func=lambda i: f"#{i} · Amount {pool.loc[i, 'Amount']:.2f} · actual: "
-                                  f"{'Fraud' if pool.loc[i, 'Class'] == 1 else 'Legit'}")
+            format_func=lambda i: f"#{i} · Amount {pool.loc[i, 'Amount']:.2f}")
         st.session_state.pick = int(choice)
         row = samples.loc[[choice], FEATURES]
         actual = int(samples.loc[choice, "Class"])
+        st.caption("The model sees only these 30 values. The true label stays hidden "
+                   "and is shown only after the prediction, to check it.")
         with st.expander("See the 30 input values"):
             st.dataframe(row, hide_index=True)
     else:
