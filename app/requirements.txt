@@ -1,0 +1,12 @@
+# Minimal dependencies for the Streamlit demo (used by Streamlit Community Cloud).
+# Versions match the ones the saved model was trained with.
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+imbalanced-learn==0.12.4
+xgboost==2.1.3
+shap==0.46.0
+matplotlib==3.9.2
+joblib==1.4.2
+streamlit==1.40.1
+pyarrow==17.0.0
